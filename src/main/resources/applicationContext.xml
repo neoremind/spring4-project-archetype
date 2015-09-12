@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.baidu.unbiz"/>
+
+    <aop:aspectj-autoproxy/>
+
+    <!-- 配置文件 -->
+    <!--<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+    <!--<property name="locations" value="classpath:com/foo/jdbc.properties"/>-->
+    <!--</bean>-->
+
+    <!--<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+    <!--<property name="url" value="${jdbc.url}"/>-->
+    <!--<property name="username" value="${jdbc.username}"/>-->
+    <!--<property name="password" value="${jdbc.password}"/>-->
+    <!--</bean>-->
+
+    <context:property-placeholder location="classpath:config.properties"/>
+
+    <!--<context:property-placeholder properties-ref="yamlProperties"/>-->
+    <bean id="yamlMap" class="org.springframework.beans.factory.config.YamlMapFactoryBean">
+        <property name="resources">
+            <list>
+                <value>classpath:my.yml</value>
+            </list>
+        </property>
+        <property name="resolutionMethod" value="FIRST_FOUND"/>
+    </bean>
+
+    <bean id="yamlProperties" class="org.springframework.beans.factory.config.YamlPropertiesFactoryBean">
+        <property name="resources">
+            <list>
+                <value>classpath:my.yml</value>
+            </list>
+        </property>
+        <property name="resolutionMethod" value="FIRST_FOUND"/>
+    </bean>
+
+    <!-- bean依赖配置 -->
+    <!--<bean id="beanOne" class="ExampleBean" depends-on="manager,accountDao">-->
+    <!--<property name="manager" ref="manager" />-->
+    <!--</bean>-->
+
+    <!--<bean id="manager" class="ManagerBean" />-->
+    <!--<bean id="accountDao" class="x.y.jdbc.JdbcAccountDao" />-->
+
+    <!--
+    <bean id="validateCarCallback" class="com.baidu.unbiz.fluentvalidator.interceptor.ValidateCarCallback"/>
+
+    <bean id="fluentValidateInterceptor"
+          class="com.baidu.unbiz.fluentvalidator.interceptor.FluentValidateInterceptor">
+        <property name="callback" ref="validateCarCallback"/>
+    </bean>
+
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="beanNames">
+            <list>
+                <value>*ServiceImpl</value>
+            </list>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>fluentValidateInterceptor</value>
+            </list>
+        </property>
+    </bean>
+    -->
+</beans>
