@@ -73,4 +73,32 @@
         </property>
     </bean>
     -->
+
+    <!-- Usage of using the ProxyFactoryBean to create AOP proxies-->
+    <bean id="localRpcCall" class="com.baidu.unbiz.dsp.archtype.rpc.impl.LocalRpcCall"/>
+
+    <bean id="rpcAdvisor" class="com.baidu.unbiz.dsp.archtype.rpc.RpcAdvisor"/>
+
+    <bean id="myProxyRpcCall" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="proxyInterfaces" value="com.baidu.unbiz.dsp.archtype.rpc.RpcCall"/>
+        <property name="target" ref="localRpcCall"/>
+        <property name="interceptorNames">
+            <list>
+                <value>rpcAdvisor</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="jdkProxyBuilder" class="com.baidu.unbiz.dsp.archtype.rpc.JdkDynamicProxyBuilder"/>
+    <bean id="remoteRpcCallOfJdk" class="com.baidu.unbiz.dsp.archtype.rpc.RemoteRpcCallProxyFactoryBean">
+        <property name="serviceInterface" value="com.baidu.unbiz.dsp.archtype.rpc.RpcCall"/>
+        <property name="proxyBuilder" ref="jdkProxyBuilder"/>
+    </bean>
+
+    <bean id="javassistProxyBuilder" class="com.baidu.unbiz.dsp.archtype.rpc.JavassistProxyBuilder"/>
+    <bean id="remoteRpcCallOfJavassist" class="com.baidu.unbiz.dsp.archtype.rpc.RemoteRpcCallProxyFactoryBean">
+        <property name="serviceInterface" value="com.baidu.unbiz.dsp.archtype.rpc.NonGenericRpcCall"/>
+        <property name="proxyBuilder" ref="javassistProxyBuilder"/>
+    </bean>
+
 </beans>
