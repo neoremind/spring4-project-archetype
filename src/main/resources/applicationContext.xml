@@ -101,4 +101,5 @@
         <property name="proxyBuilder" ref="javassistProxyBuilder"/>
     </bean>
 
+    <import resource="applicationContext-jmx.xml"/>
 </beans>
